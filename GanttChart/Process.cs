@@ -9,7 +9,7 @@ namespace GanttChart
     class Process
     {
         public readonly int priority;
-        public readonly int time;
+        public  int time;
         public readonly int id;
         public readonly int arrivaltime;
         public Process(int id, int time, int priority)
@@ -24,6 +24,10 @@ namespace GanttChart
             this.time = time;
             this.priority = priority;
             this.arrivaltime = arrivaltime;
+        }
+        public void SetTime(int time)
+        {
+            this.time = time;
         }
     }
 }

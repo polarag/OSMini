@@ -27,7 +27,7 @@ namespace GanttChart
         private void DrawGantt(List<Process> _processes)
         {
 
-            ganttChart2.
+            
             ganttChart2.FromDate = DateTime.Now;
             int time = 0;
             for (int i =0; i < _processes.Count(); i++)
@@ -37,8 +37,7 @@ namespace GanttChart
                 //MessageBox.Show(time.ToString() + " |  " + ganttChart2.FromDate.AddMinutes(time).ToString() + " | " + ganttChart2.FromDate.AddMinutes(time + Processes[i].time).ToString());
             }
             ganttChart2.ToDate = ganttChart2.FromDate.AddMinutes(time); //calculate time from processes
-            //so is it bad? no sh3'ala kwis bas el moshkla fl 7sabat hazbotha dlwa2ti waiittt
-            //5alas ok fadel tedrabhom fy factor ya3ny?? ya3ni eh adrabhom f factor ana ha3ml kda leh asasn :D so small ma el maths 3'alat hazbotha dlwa2t :D ok
+            
             tableLayoutPanel1.Controls.Add(ganttChart2, 0, 0);
         }
         private void Form1_Load(object sender, EventArgs e)
@@ -170,7 +169,7 @@ namespace GanttChart
 
         private void FCFS()
         {
-            DrawGantt(Processes);
+            DrawGantt( Processes.OrderBy(o => o.arrivaltime).ToList() );
         }
         //0: preemptive
         //1: nonpre
@@ -212,31 +211,55 @@ namespace GanttChart
         }
         private void RoundRobin()
         {
+            List<Process> scheduledprocesses = new List<Process>();
+            List<Process> orderedprocesses = processes.OrderBy(o => o.arrivaltime).ToList();
+            int accumlatedtime = 0;
+            int q = (int)numQuantum.Value;
+            int buffer = 0;
+            int count = orderedprocesses.Where(o => o.arrivaltime <= accumlatedtime).Count();
+            while (orderedprocesses.Count() > 0)
+            {
+                count = orderedprocesses.Where(o => o.arrivaltime <= accumlatedtime).Count();
+                buffer = (count > 0) ? (buffer + 1) % count : 0;
 
+                Process currentprocess =(count>0)?orderedprocesses.Where(o => o.arrivaltime <= accumlatedtime).ToList()[buffer]:null;
+
+
+                if (currentprocess == null) currentprocess = orderedprocesses.OrderBy(o => o.arrivaltime).FirstOrDefault();
+                currentprocess.SetTime(currentprocess.time - q);
+                scheduledprocesses.Add(new Process(currentprocess.id,currentprocess.time,currentprocess.priority) );
+                accumlatedtime += q;
+                orderedprocesses.RemoveAll(x => x.time <= 0);
+
+            }
+            DrawGantt(scheduledprocesses);
         }
         private void btngenerate_Click(object sender, EventArgs e)
         {
-            switch (schedulerType.SelectedIndex)
-            {
-                case 0:
-                    FCFS();
-                    break;
-                case 1:
-                    SJF(0);
-                    break;
-                case 2:
-                    SJF(1);
-                    break;
-                case 3:
-                    Priority(0);
-                    break;
-                case 4:
-                    Priority(1);
-                    break;
-                case 5:
-                    RoundRobin();
-                    break;
-            }
+            if (numQuantum.Visible == true && numQuantum.Value <= 0)
+                MessageBox.Show("Quantum Must be A Non Zero");
+            else
+                switch (schedulerType.SelectedIndex)
+                {
+                    case 0:
+                        FCFS();
+                        break;
+                    case 1:
+                        SJF(0);
+                        break;
+                    case 2:
+                        SJF(1);
+                        break;
+                    case 3:
+                        Priority(0);
+                        break;
+                    case 4:
+                        Priority(1);
+                        break;
+                    case 5:
+                        RoundRobin();
+                        break;
+                }
 
         }
     }
