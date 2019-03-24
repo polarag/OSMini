@@ -26,20 +26,30 @@ namespace GanttChart
         }
         private void DrawGantt(List<Process> _processes)
         {
+            tableLayoutPanel1.Controls.Clear();
+            GenerateGantt();
+            ganttChart2.FromDate = DateTime.Now.AddMinutes(_processes[0].arrivaltime);
 
-            ganttChart2.
-            ganttChart2.FromDate = DateTime.Now;
             int time = 0;
             for (int i =0; i < _processes.Count(); i++)
-            { 
-                ganttChart2.AddChartBar("P"+_processes[i].id, _processes[i].time, ganttChart2.FromDate.AddMinutes(time), ganttChart2.FromDate.AddMinutes(time+ _processes[i].time), Color.Maroon, Color.Khaki, i);
+            {
+                ganttChart2.AddChartBar("P" + _processes[i].id, new BarInformation("Time: " + _processes[i].time + " units, AT:" + _processes[i].arrivaltime, ganttChart2.FromDate.AddMinutes(_processes[i].arrivaltime), ganttChart2.FromDate.AddMinutes(_processes[i].arrivaltime + _processes[i].time), Color.Aqua, Color.Khaki, 0), ganttChart2.FromDate.AddMinutes(_processes[i].arrivaltime > time? time : _processes[i].arrivaltime), ganttChart2.FromDate.AddMinutes((_processes[i].arrivaltime > time ? time : _processes[i].arrivaltime) + _processes[i].time), Color.Maroon, Color.Khaki, i);
                 time += _processes[i].time;
-                //MessageBox.Show(time.ToString() + " |  " + ganttChart2.FromDate.AddMinutes(time).ToString() + " | " + ganttChart2.FromDate.AddMinutes(time + Processes[i].time).ToString());
             }
-            ganttChart2.ToDate = ganttChart2.FromDate.AddMinutes(time); //calculate time from processes
-            //so is it bad? no sh3'ala kwis bas el moshkla fl 7sabat hazbotha dlwa2ti waiittt
-            //5alas ok fadel tedrabhom fy factor ya3ny?? ya3ni eh adrabhom f factor ana ha3ml kda leh asasn :D so small ma el maths 3'alat hazbotha dlwa2t :D ok
+            ganttChart2.ToDate = ganttChart2.FromDate.AddMinutes(_processes[_processes.Count() - 1].arrivaltime);
             tableLayoutPanel1.Controls.Add(ganttChart2, 0, 0);
+        }
+        void GenerateGantt()
+        {
+            ganttChart2 = new GanttChart();
+            ganttChart2.Dock = DockStyle.Fill;
+            ganttChart2.AllowChange = true;
+            ganttChart2.AllowManualEditBar = true;
+
+            ganttChart2.MouseMove += new MouseEventHandler(ganttChart2.GanttChart_MouseMove);
+            ganttChart2.MouseMove += new MouseEventHandler(GanttChart2_MouseMove);
+            ganttChart2.MouseLeave += new EventHandler(ganttChart2.GanttChart_MouseLeave);
+            ganttChart2.ContextMenuStrip = ContextMenuGanttChart1;
         }
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -59,20 +69,9 @@ namespace GanttChart
             tableLayoutPanel1.Controls.Add(txtLog, 0, 1);
             */
             //Second Gantt Chart
-            ganttChart2 = new GanttChart();
-            ganttChart2.Dock = DockStyle.Fill;
-            ganttChart2.AllowChange = true;
-            ganttChart2.AllowManualEditBar = true;
-
-            ganttChart2.MouseMove += new MouseEventHandler(ganttChart2.GanttChart_MouseMove);
-            ganttChart2.MouseMove += new MouseEventHandler(GanttChart2_MouseMove);
-            ganttChart2.MouseLeave += new EventHandler(ganttChart2.GanttChart_MouseLeave);
-            ganttChart2.ContextMenuStrip = ContextMenuGanttChart1;
+           
             
         }
-
-        
-
         private void GanttChart2_MouseMove(Object sender, MouseEventArgs e)
         {
             List<string> toolTipText = new List<string>();
@@ -84,7 +83,7 @@ namespace GanttChart
                 if (typ.ToLower().Contains("barinformation"))
                 {
                     BarInformation val = (BarInformation)ganttChart2.MouseOverRowValue;
-                    toolTipText.Add("[b]Time:");
+                    toolTipText.Add(val.RowText);
                     toolTipText.Add("From " + val.FromTime.ToString("HH:mm"));
                     toolTipText.Add("To " + val.ToTime.ToString("HH:mm"));
                 }
@@ -170,6 +169,8 @@ namespace GanttChart
 
         private void FCFS()
         {
+
+            Processes = Processes.OrderBy(x => x.arrivaltime).ToList();
             DrawGantt(Processes);
         }
         //0: preemptive
