@@ -30,13 +30,14 @@ namespace GanttChart
             GenerateGantt();
             ganttChart2.FromDate = DateTime.Now.AddMinutes(_processes[0].arrivaltime);
 
-            int time = 0;
+            int time = _processes[0].arrivaltime;
+            // BarInformation("Time: " + _processes[i].time + " units, AT:" + _processes[i].arrivaltime, ganttChart2.FromDate.AddMinutes(_processes[i].arrivaltime), ganttChart2.FromDate.AddMinutes(_processes[i].arrivaltime + _processes[i].time)
             for (int i =0; i < _processes.Count(); i++)
             {
-                ganttChart2.AddChartBar("P" + _processes[i].id, new BarInformation("Time: " + _processes[i].time + " units, AT:" + _processes[i].arrivaltime, ganttChart2.FromDate.AddMinutes(_processes[i].arrivaltime), ganttChart2.FromDate.AddMinutes(_processes[i].arrivaltime + _processes[i].time), Color.Aqua, Color.Khaki, 0), ganttChart2.FromDate.AddMinutes(_processes[i].arrivaltime > time? time : _processes[i].arrivaltime), ganttChart2.FromDate.AddMinutes((_processes[i].arrivaltime > time ? time : _processes[i].arrivaltime) + _processes[i].time), Color.Maroon, Color.Khaki, i);
+                ganttChart2.AddChartBar("P" + _processes[i].id, new BarInformation("Time: " + _processes[i].time + " units, AT:" + _processes[i].arrivaltime, ganttChart2.FromDate.AddMinutes(_processes[i].arrivaltime > time ? _processes[i].arrivaltime : time), ganttChart2.FromDate.AddMinutes((_processes[i].arrivaltime > time ? _processes[i].arrivaltime : time) + _processes[i].time), Color.Maroon, Color.Wheat, 0), ganttChart2.FromDate.AddMinutes(_processes[i].arrivaltime > time? _processes[i].arrivaltime:time ), ganttChart2.FromDate.AddMinutes((_processes[i].arrivaltime > time ? _processes[i].arrivaltime : time) +_processes[i].time), Color.Maroon, Color.Khaki, i);
                 time += _processes[i].time;
             }
-            ganttChart2.ToDate = ganttChart2.FromDate.AddMinutes(_processes[_processes.Count() - 1].arrivaltime);
+            ganttChart2.ToDate = ganttChart2.FromDate.AddMinutes((_processes[_processes.Count - 1].arrivaltime > time ? _processes[_processes.Count-1].arrivaltime : time) + _processes[_processes.Count - 1].time);
             tableLayoutPanel1.Controls.Add(ganttChart2, 0, 0);
         }
         void GenerateGantt()
