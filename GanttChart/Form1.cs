@@ -13,7 +13,7 @@ namespace GanttChart
 {
     public partial class Form1 : Form
     {
-        
+
         GanttChart ganttChart2;
 
         private static List<Process> processes = new List<Process>();
@@ -26,6 +26,8 @@ namespace GanttChart
         }
         private void DrawGantt(List<Process> _processes)
         {
+
+            ganttChart2.
             ganttChart2.FromDate = DateTime.Now;
             int time = 0;
             for (int i =0; i < _processes.Count(); i++)
@@ -146,12 +148,12 @@ namespace GanttChart
             if (numericUpDown1.Value > 0)
             {
                 Processes.Clear();
-                int accumlatedtime = 0;
+                
                 for (int i = 0; i < (int)numericUpDown1.Value; i++)
                 {
-                    int time = random.Next(1, 20);
-                    Processes.Add(new Process(i,time , random.Next(0, 6),accumlatedtime));
-                    accumlatedtime += time;
+                    
+                    Processes.Add(new Process(i,random.Next(1, 20), random.Next(0, 6),random.Next(0, (int)numericUpDown1.Value *6 )));
+                    
                 }
                 MessageBox.Show("Generated " + numericUpDown1.Value.ToString() + " entries successfully. You can manage the generated entries through Manage Processes", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -191,7 +193,9 @@ namespace GanttChart
                 int accumlatedtime = 0;
                 while(orderedprocesses.Count() > 0)
                 {
-                      Process currentprocess = orderedprocesses.Where(o => o.arrivaltime <= accumlatedtime).OrderBy(o => o.time).FirstOrDefault();
+                    
+                     Process currentprocess = orderedprocesses.Where(o => o.arrivaltime <= accumlatedtime).OrderBy(o => o.time).FirstOrDefault();
+                    if (currentprocess == null) currentprocess = orderedprocesses.OrderBy(o => o.arrivaltime).FirstOrDefault();
                     scheduledprocesses.Add(currentprocess);
                     accumlatedtime += currentprocess.time;
                     orderedprocesses.RemoveAll(x => x == currentprocess );
