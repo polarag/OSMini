@@ -376,6 +376,8 @@ namespace GanttChart
          
             foreach (ListViewItem item in listView1.Items)
                 Form1.Processes.Add(new Process(int.Parse(item.Text), int.Parse(item.SubItems[1].Text), int.Parse(item.SubItems[2].Text)));
+           
+            if (e.GetType().ToString() != "System.Windows.Forms.FormClosingEventArgs")
             Close();
         }
 
