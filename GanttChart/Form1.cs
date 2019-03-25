@@ -40,7 +40,7 @@ namespace GanttChart
                 {
                     startT = _processes[i].arrivaltime > time ? _processes[i].arrivaltime : time;
                     endT = (_processes[i].arrivaltime > time ? _processes[i].arrivaltime : time) + _processes[i].time;
-                    ganttChart2.AddChartBar("P" + _processes[i].id, new BarInformation("Start: " + startT +  ", End: " + endT + ",|Time: " + _processes[i].time + " units, AT:" + _processes[i].arrivaltime, ganttChart2.FromDate.AddMinutes(startT), ganttChart2.FromDate.AddMinutes(endT), _processes[i].color != Color.White? _processes[i].color : Color.Maroon, Color.Wheat, 0), ganttChart2.FromDate.AddMinutes(startT), ganttChart2.FromDate.AddMinutes(endT), _processes[i].color != Color.White ? _processes[i].color : Color.Maroon, Color.Khaki, i);
+                    ganttChart2.AddChartBar("P" + _processes[i].id, new BarInformation("Start: " + startT +  ", End: " + endT + ",|Time: " + _processes[i].time + " units, AT:" + Processes.Where(p => p.id == _processes[i].id).FirstOrDefault().arrivaltime, ganttChart2.FromDate.AddMinutes(startT), ganttChart2.FromDate.AddMinutes(endT), _processes[i].color != Color.White? _processes[i].color : Color.Maroon, Color.Wheat, 0), ganttChart2.FromDate.AddMinutes(startT), ganttChart2.FromDate.AddMinutes(endT), _processes[i].color != Color.White ? _processes[i].color : Color.Maroon, Color.Khaki, i);
                     time = endT;
                 }
                 ganttChart2.ToDate = ganttChart2.FromDate.AddMinutes((_processes[_processes.Count - 1].arrivaltime > time ? _processes[_processes.Count-1].arrivaltime : time) + _processes[_processes.Count - 1].time);
@@ -168,7 +168,6 @@ namespace GanttChart
                 {
                     
                     Processes.Add(new Process(i,random.Next(1, 20), random.Next(0, 6),random.Next(0, (int)numericUpDown1.Value *6 )));
-                    
                 }
                 MessageBox.Show("Generated " + numericUpDown1.Value.ToString() + " entries successfully. You can manage the generated entries through Manage Processes", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -221,7 +220,7 @@ namespace GanttChart
                 DrawGantt(scheduledprocesses);
 
             }
-            if (mode == 1 ) // NON PREEmptive
+            else // NON PREEmptive
             {
 
                 List<Process> scheduledprocesses = new List<Process>();
@@ -236,9 +235,7 @@ namespace GanttChart
                     accumlatedtime += currentprocess.time;
                     orderedprocesses.RemoveAll(x => x == currentprocess );
                 }
-
                 DrawGantt(scheduledprocesses);
-
             }
                 
         }
@@ -278,7 +275,6 @@ namespace GanttChart
         private void RoundRobin()
         {
             int q = (int)numQuantum.Value;
-
             if (q > 0)
             {
                 List<Process> scheduledprocesses = new List<Process>();
@@ -288,7 +284,6 @@ namespace GanttChart
                 int sumq = orderedprocesses[0].arrivaltime;
                 int subtract = 0;
                 Color color = Color.FromArgb(random.Next(256), random.Next(256), random.Next(256));
-
 
                 while (orderedprocesses.Count() > 0)
                 {

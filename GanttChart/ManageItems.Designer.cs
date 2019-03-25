@@ -30,6 +30,7 @@
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.atText = new System.Windows.Forms.NumericUpDown();
             this.prText = new System.Windows.Forms.NumericUpDown();
             this.tText = new System.Windows.Forms.NumericUpDown();
             this.DoneButton = new System.Windows.Forms.Button();
@@ -38,6 +39,7 @@
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.button7 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
@@ -47,8 +49,6 @@
             this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.label1 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
-            this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.atText = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -57,9 +57,9 @@
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.atText)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.prText)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tText)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.atText)).BeginInit();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -108,6 +108,21 @@
             this.splitContainer2.Size = new System.Drawing.Size(597, 270);
             this.splitContainer2.SplitterDistance = 472;
             this.splitContainer2.TabIndex = 0;
+            // 
+            // atText
+            // 
+            this.atText.Location = new System.Drawing.Point(250, 30);
+            this.atText.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.atText.Name = "atText";
+            this.atText.Size = new System.Drawing.Size(60, 20);
+            this.atText.TabIndex = 11;
+            this.atText.Visible = false;
+            this.atText.Enter += new System.EventHandler(this.idText_Enter);
+            this.atText.Leave += new System.EventHandler(this.idText_Leave);
             // 
             // prText
             // 
@@ -194,6 +209,10 @@
             // 
             this.columnHeader3.Text = "Priority";
             this.columnHeader3.Width = 89;
+            // 
+            // columnHeader4
+            // 
+            this.columnHeader4.Text = "AT";
             // 
             // button7
             // 
@@ -295,23 +314,6 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // columnHeader4
-            // 
-            this.columnHeader4.Text = "AT";
-            // 
-            // atText
-            // 
-            this.atText.Location = new System.Drawing.Point(250, 30);
-            this.atText.Maximum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-            this.atText.Name = "atText";
-            this.atText.Size = new System.Drawing.Size(60, 20);
-            this.atText.TabIndex = 11;
-            this.atText.Visible = false;
-            // 
             // ManageItems
             // 
             this.AcceptButton = this.button1;
@@ -336,9 +338,9 @@
             this.splitContainer2.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.atText)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.prText)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tText)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.atText)).EndInit();
             this.ResumeLayout(false);
 
         }

@@ -44,6 +44,7 @@
             this.numQuantum = new System.Windows.Forms.NumericUpDown();
             this.lblSchedulingType = new System.Windows.Forms.Label();
             this.schedulerType = new System.Windows.Forms.ComboBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.ContextMenuGanttChart1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -80,7 +81,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(481, 205);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(481, 194);
             this.tableLayoutPanel1.TabIndex = 2;
             // 
             // splitContainer1
@@ -92,6 +93,7 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.label2);
             this.splitContainer1.Panel1.Controls.Add(this.groupBox1);
             this.splitContainer1.Panel1.Controls.Add(this.lblQuantum);
             this.splitContainer1.Panel1.Controls.Add(this.btngenerate);
@@ -103,7 +105,7 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.tableLayoutPanel1);
             this.splitContainer1.Size = new System.Drawing.Size(481, 350);
-            this.splitContainer1.SplitterDistance = 141;
+            this.splitContainer1.SplitterDistance = 152;
             this.splitContainer1.TabIndex = 3;
             // 
             // groupBox1
@@ -231,6 +233,15 @@
             this.schedulerType.TabIndex = 9;
             this.schedulerType.SelectedIndexChanged += new System.EventHandler(this.schedulerType_SelectedIndexChanged);
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(12, 131);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(115, 13);
+            this.label2.TabIndex = 22;
+            this.label2.Text = "Average Waiting Time:";
+            // 
             // Form1
             // 
             this.AcceptButton = this.btngenerate;
@@ -272,6 +283,7 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Label lblQuantum;
         private System.Windows.Forms.NumericUpDown numQuantum;
+        private System.Windows.Forms.Label label2;
     }
 }
 

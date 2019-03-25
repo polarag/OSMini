@@ -84,7 +84,6 @@ namespace GanttChart
             splitContainer2.Panel2.Enabled = false;
             listView1.Enabled = false;
             listView2.Enabled = false;
-            DoneButton.Visible = true;
             try
             {
                 if (PostMethod != "Add")
@@ -144,7 +143,6 @@ namespace GanttChart
             {
                 listView1.Items[listView1.Items.Count - 1].EnsureVisible();
             }
-            PostMethod = "";
         }
         private void button2_Click_1(object sender, EventArgs e)
         {
@@ -177,6 +175,8 @@ namespace GanttChart
                 if (control is NumericUpDown || control is TextBox)
                     control.Visible = visible;
             }
+
+            DoneButton.Visible = visible;
         }
         private void DoneButton_Click(object sender, EventArgs e)
         {
@@ -201,7 +201,6 @@ namespace GanttChart
                         listView1.Items[SelectedIndex].SubItems.Add(atText.Value.ToString());
                   
                     setVisibleNumeric(false);
-                    DoneButton.Visible = false;
                     base.AcceptButton = button1;
                     splitContainer2.Panel2.Enabled = true;
                     EnableRightPane();
@@ -227,7 +226,6 @@ namespace GanttChart
                     listViewItem.SubItems.Add(prText.Value.ToString());
                     listViewItem.SubItems.Add(atText.Value.ToString());
                     setVisibleNumeric(false);
-                    DoneButton.Visible = false;
                     base.AcceptButton = button1;
                     splitContainer2.Panel2.Enabled = true;
                     EnableRightPane();
@@ -272,7 +270,6 @@ namespace GanttChart
 
         private void idText_Leave(object sender, EventArgs e)
         {
-
             base.AcceptButton = button1;
         }
 
