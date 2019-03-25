@@ -27,17 +27,7 @@ namespace GanttChart
             InitializeComponent();
         }
         private void DrawGantt(List<Process> _processes)
-        {
-            tableLayoutPanel1.Controls.Clear();
-            GenerateGantt();
-            ganttChart2.FromDate = DateTime.Now.AddMinutes(_processes[0].arrivaltime);
-
-            int time = _processes[0].arrivaltime;
-            // BarInformation("Time: " + _processes[i].time + " units, AT:" + _processes[i].arrivaltime, ganttChart2.FromDate.AddMinutes(_processes[i].arrivaltime), ganttChart2.FromDate.AddMinutes(_processes[i].arrivaltime + _processes[i].time)
-            int startT = 0;
-            int endT = 0;
-            for (int i = 0; i < _processes.Count(); i++)
-            {	
+            {
                 tableLayoutPanel1.Controls.Clear();
                GenerateGantt();
                 ganttChart2.FromDate = DateTime.Now.AddMinutes(_processes[0].arrivaltime);
@@ -56,9 +46,6 @@ namespace GanttChart
                 ganttChart2.ToDate = ganttChart2.FromDate.AddMinutes((_processes[_processes.Count - 1].arrivaltime > time ? _processes[_processes.Count-1].arrivaltime : time) + _processes[_processes.Count - 1].time);
                 tableLayoutPanel1.Controls.Add(ganttChart2, 0, 0);
             }
-            ganttChart2.ToDate = ganttChart2.FromDate.AddMinutes((_processes[_processes.Count - 1].arrivaltime > time ? _processes[_processes.Count - 1].arrivaltime : time) + _processes[_processes.Count - 1].time);
-            tableLayoutPanel1.Controls.Add(ganttChart2, 0, 0);
-        }
         void GenerateGantt()
         {
             ganttChart2 = new GanttChart();
@@ -90,8 +77,8 @@ namespace GanttChart
             tableLayoutPanel1.Controls.Add(txtLog, 0, 1);
             */
             //Second Gantt Chart
-
-
+           
+            
         }
         private void GanttChart2_MouseMove(Object sender, MouseEventArgs e)
         {
@@ -176,12 +163,12 @@ namespace GanttChart
             if (numericUpDown1.Value > 0)
             {
                 Processes.Clear();
-
+                
                 for (int i = 0; i < (int)numericUpDown1.Value; i++)
                 {
-
-                    Processes.Add(new Process(i, random.Next(1, 20), random.Next(0, 6), random.Next(0, (int)numericUpDown1.Value * 6)));
-
+                    
+                    Processes.Add(new Process(i,random.Next(1, 20), random.Next(0, 6),random.Next(0, (int)numericUpDown1.Value *6 )));
+                    
                 }
                 MessageBox.Show("Generated " + numericUpDown1.Value.ToString() + " entries successfully. You can manage the generated entries through Manage Processes", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -206,54 +193,28 @@ namespace GanttChart
         {
             if (mode == 0) // PREEMPTIVE
             {
-                List<Process> groupprocess;
-                List<Process> scheduledprocesses = new List<Process>();
-                List<Process> orderedprocesses = Clone(processes);
-                int accumlatedtime = 0;
-                Process currentprocess;
-                while (orderedprocesses.Count() > 0)
-                {
-                    groupprocess = orderedprocesses.Where(o => o.arrivaltime > accumlatedtime).OrderBy(o => o.time).ToList();
-                    if (groupprocess == null) { accumlatedtime++; continue; }
-                    currentprocess = orderedprocesses.FirstOrDefault();
-                    
-                    scheduledprocesses.Add(new Process(currentprocess.id , 1 ,0,accumlatedtime));
-                    accumlatedtime++;
-                    currentprocess.time--;
-                    orderedprocesses.RemoveAll(x => x.time <= 0);
-
-                }
-                for (int i = scheduledprocesses.Count()-1; i >0; i--)
-                {
-                    if(scheduledprocesses[i].id == scheduledprocesses[i-1].id)
-                    {
-                        scheduledprocesses[i-1].time += scheduledprocesses[i].time;
-                        scheduledprocesses.Remove(scheduledprocesses[i]);
-                    }
-                }
-                DrawGantt(scheduledprocesses);
-
+                List<Process> scheduledprocess = new List<Process>();
             }
-            else // NON PREEmptive
+            if (mode == 1 ) // NON PREEmptive
             {
 
                 List<Process> scheduledprocesses = new List<Process>();
-                List<Process> orderedprocesses = Clone(processes.OrderBy(o => o.arrivaltime).ToList());
+                List<Process> orderedprocesses = processes.OrderBy(o => o.arrivaltime).ToList();
                 int accumlatedtime = 0;
-                while (orderedprocesses.Count() > 0)
+                while(orderedprocesses.Count() > 0)
                 {
-
-                    Process currentprocess = orderedprocesses.Where(o => o.arrivaltime <= accumlatedtime).OrderBy(o => o.time).FirstOrDefault();
+                    
+                     Process currentprocess = orderedprocesses.Where(o => o.arrivaltime <= accumlatedtime).OrderBy(o => o.time).FirstOrDefault();
                     if (currentprocess == null) currentprocess = orderedprocesses.OrderBy(o => o.arrivaltime).FirstOrDefault();
                     scheduledprocesses.Add(currentprocess);
                     accumlatedtime += currentprocess.time;
-                    orderedprocesses.RemoveAll(x => x == currentprocess);
+                    orderedprocesses.RemoveAll(x => x == currentprocess );
                 }
 
                 DrawGantt(scheduledprocesses);
 
             }
-
+                
         }
         private void Priority(int mode = 0)
         {
