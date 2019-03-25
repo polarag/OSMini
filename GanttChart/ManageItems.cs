@@ -33,6 +33,7 @@ namespace GanttChart
             item.Text = prc.id.ToString();
             item.SubItems.Add(prc.time.ToString());
             item.SubItems.Add(prc.priority.ToString());
+            item.SubItems.Add(prc.arrivaltime.ToString());
 
             listView1.Items.Add(item);
         }
@@ -76,20 +77,13 @@ namespace GanttChart
             selected = e.Item;
         }
         string PostMethod = "Add";
-        private void button2_Click_1(object sender, EventArgs e)
+        private void DoMethod()
         {
-            listView1.Scrollable = true;
-            if (listView1.Items.Count > 0)
-            {
-                listView1.Items[listView1.Items.Count - 1].EnsureVisible();
-            }
+            setVisibleNumeric(true);
+            DisableRightPane();
             splitContainer2.Panel2.Enabled = false;
-            PostMethod = "Add";
             listView1.Enabled = false;
             listView2.Enabled = false;
-            tText.Visible = true;
-            prText.Visible = true;
-            idText.Visible = true;
             DoneButton.Visible = true;
             try
             {
@@ -98,51 +92,64 @@ namespace GanttChart
                     idText.Location = new Point(listView1.Items[SelectedIndex].Position.X, listView1.Items[SelectedIndex].Position.Y);
                     tText.Location = new Point(listView1.Items[SelectedIndex].Position.X + columnHeader1.Width, listView1.Items[SelectedIndex].Position.Y);
                     prText.Location = new Point(listView1.Items[SelectedIndex].Position.X + columnHeader2.Width + columnHeader1.Width, listView1.Items[SelectedIndex].Position.Y);
+                    atText.Location = new Point(listView1.Items[SelectedIndex].Position.X + columnHeader3.Width + columnHeader2.Width + columnHeader1.Width, listView1.Items[SelectedIndex].Position.Y);
+
                 }
                 else if (listView1.Items.Count > 0)
                 {
-                    int index = listView1.Items.Count - 1;
-                    idText.Location = new Point(listView1.Items[index].Position.X, listView1.Items[index].Position.Y + 17);
-                    tText.Location = new Point(listView1.Items[index].Position.X + columnHeader1.Width, listView1.Items[index].Position.Y + 17);
-                    prText.Location = new Point(listView1.Items[index].Position.X + columnHeader2.Width + columnHeader1.Width, listView1.Items[index].Position.Y + 17);
+                    idText.Location = new Point(listView1.Items[listView1.Items.Count - 1].Position.X, listView1.Items[listView1.Items.Count - 1].Position.Y + 17);
+                    tText.Location = new Point(listView1.Items[listView1.Items.Count - 1].Position.X + columnHeader1.Width, listView1.Items[listView1.Items.Count - 1].Position.Y + 17);
+                    prText.Location = new Point(listView1.Items[listView1.Items.Count - 1].Position.X + columnHeader2.Width + columnHeader1.Width, listView1.Items[listView1.Items.Count - 1].Position.Y + 17);
+                    atText.Location = new Point(listView1.Items[listView1.Items.Count - 1].Position.X + columnHeader3.Width + columnHeader2.Width + columnHeader1.Width, listView1.Items[listView1.Items.Count - 1].Position.Y + 17);
                 }
                 else
                 {
                     idText.Location = new Point(5, 30);
                     tText.Location = new Point(69, 30);
                     prText.Location = new Point(170, 30);
+                    atText.Location = new Point(250, 30);
                 }
             }
             catch
             {
                 if (listView1.Items.Count > 0)
                 {
-                    int index2 = listView1.Items.Count - 1;
-                    idText.Location = new Point(listView1.Items[index2].Position.X, listView1.Items[index2].Position.Y + 17);
-                    tText.Location = new Point(listView1.Items[index2].Position.X + columnHeader1.Width, listView1.Items[index2].Position.Y + 17);
-                    prText.Location = new Point(listView1.Items[index2].Position.X + columnHeader2.Width + columnHeader1.Width, listView1.Items[index2].Position.Y + 17);
+
+                    idText.Location = new Point(listView1.Items[listView1.Items.Count - 1].Position.X, listView1.Items[listView1.Items.Count - 1].Position.Y + 17);
+                    tText.Location = new Point(listView1.Items[listView1.Items.Count - 1].Position.X + columnHeader1.Width, listView1.Items[listView1.Items.Count - 1].Position.Y + 17);
+                    prText.Location = new Point(listView1.Items[listView1.Items.Count - 1].Position.X + columnHeader2.Width + columnHeader1.Width, listView1.Items[listView1.Items.Count - 1].Position.Y + 17);
+                    atText.Location = new Point(listView1.Items[listView1.Items.Count - 1].Position.X + columnHeader3.Width + columnHeader2.Width + columnHeader1.Width, listView1.Items[listView1.Items.Count - 1].Position.Y + 17);
                 }
             }
             idText.Size = new Size(columnHeader1.Width - 5, idText.Size.Height);
             tText.Size = new Size(columnHeader2.Width - 5, idText.Size.Height);
             prText.Size = new Size(columnHeader3.Width - 5, idText.Size.Height);
+            atText.Size = new Size(columnHeader4.Width - 5, idText.Size.Height);
             tText.Select();
             tText.Focus();
             try
             {
-                idText.Text = PostMethod == "Add"? (index+1).ToString() : listView1.Items[SelectedIndex].SubItems[0].Text;
+                idText.Text = PostMethod == "Add" ? (index + 1).ToString() : listView1.Items[SelectedIndex].SubItems[0].Text;
                 tText.Value = int.Parse(listView1.Items[SelectedIndex].SubItems[1].Text);
                 prText.Value = int.Parse(listView1.Items[SelectedIndex].SubItems[2].Text);
+                atText.Value = int.Parse(listView1.Items[SelectedIndex].SubItems[3].Text);
             }
             catch
             {
-                idText.Text = (index+1).ToString();
+                if (PostMethod == "Add")
+                    idText.Text = (index + 1).ToString();
             }
             listView1.Scrollable = true;
             if (listView1.Items.Count > 0)
             {
                 listView1.Items[listView1.Items.Count - 1].EnsureVisible();
             }
+            PostMethod = "";
+        }
+        private void button2_Click_1(object sender, EventArgs e)
+        {
+            PostMethod = "Add";
+            DoMethod();
         }
 
         private void DisableRightPane()
@@ -163,7 +170,14 @@ namespace GanttChart
             button7.Enabled = true;
             button2.Enabled = true;
         }
-
+        private void setVisibleNumeric(bool visible)
+        {
+            foreach (Control control in splitContainer2.Panel1.Controls)
+            {
+                if (control is NumericUpDown || control is TextBox)
+                    control.Visible = visible;
+            }
+        }
         private void DoneButton_Click(object sender, EventArgs e)
         {
             if (PostMethod == "Edit")
@@ -182,18 +196,12 @@ namespace GanttChart
                     catch
                     {
                     }
-                    if (listView1.Items[SelectedIndex].SubItems.Count < 2)
-                    {
                         listView1.Items[SelectedIndex].SubItems.Add(tText.Value.ToString());
-                    }
-                    if (listView1.Items[SelectedIndex].SubItems.Count < 3)
-                    {
                         listView1.Items[SelectedIndex].SubItems.Add(prText.Value.ToString());
-                    }
-                    tText.Visible = false;
-                    prText.Visible = false;
+                        listView1.Items[SelectedIndex].SubItems.Add(atText.Value.ToString());
+                  
+                    setVisibleNumeric(false);
                     DoneButton.Visible = false;
-                    idText.Visible = false;
                     base.AcceptButton = button1;
                     splitContainer2.Panel2.Enabled = true;
                     EnableRightPane();
@@ -217,10 +225,9 @@ namespace GanttChart
                     listView1.Items.Add(listViewItem);
                     listViewItem.SubItems.Add(tText.Value.ToString());
                     listViewItem.SubItems.Add(prText.Value.ToString());
-                    tText.Visible = false;
-                    prText.Visible = false;
+                    listViewItem.SubItems.Add(atText.Value.ToString());
+                    setVisibleNumeric(false);
                     DoneButton.Visible = false;
-                    idText.Visible = false;
                     base.AcceptButton = button1;
                     splitContainer2.Panel2.Enabled = true;
                     EnableRightPane();
@@ -283,36 +290,7 @@ namespace GanttChart
         private void button7_Click(object sender, EventArgs e)
         {
             PostMethod = "Edit";
-            splitContainer2.Panel2.Enabled = false;
-            DisableRightPane();
-            listView1.Enabled = false;
-            listView2.Enabled = false;
-            tText.Visible = true;
-            prText.Visible = true;
-            DoneButton.Visible = true;
-            idText.Visible = true;
-            try
-            {
-                idText.Location = new Point(listView1.Items[SelectedIndex].Position.X, listView1.Items[SelectedIndex].Position.Y);
-                tText.Location = new Point(listView1.Items[SelectedIndex].Position.X + columnHeader1.Width, listView1.Items[SelectedIndex].Position.Y);
-                prText.Location = new Point(listView1.Items[SelectedIndex].Position.X + columnHeader2.Width + columnHeader1.Width, listView1.Items[SelectedIndex].Position.Y);
-            }
-            catch
-            {
-            }
-            idText.Size = new Size(columnHeader1.Width - 5, idText.Size.Height);
-            tText.Size = new Size(columnHeader2.Width - 5, idText.Size.Height);
-            prText.Size = new Size(columnHeader3.Width - 5, idText.Size.Height);
-            idText.Select();
-            idText.Text = listView1.Items[SelectedIndex].SubItems[0].Text;
-            try
-            {
-                tText.Value = int.Parse(listView1.Items[SelectedIndex].SubItems[1].Text);
-                prText.Value = int.Parse(listView1.Items[SelectedIndex].SubItems[2].Text);
-            }
-            catch
-            {
-            }
+            DoMethod();
         }
 
         private void button6_Click(object sender, EventArgs e)
@@ -367,6 +345,10 @@ namespace GanttChart
                 {
                     SwitchSides("DOWN", sender);
                 }
+                else if (e.KeyCode == Keys.Escape && PostMethod != "Edit")
+                {
+                    Close();
+                }
             }
         }
 
@@ -375,7 +357,7 @@ namespace GanttChart
             Form1.Processes.Clear();
          
             foreach (ListViewItem item in listView1.Items)
-                Form1.Processes.Add(new Process(int.Parse(item.Text), int.Parse(item.SubItems[1].Text), int.Parse(item.SubItems[2].Text)));
+                Form1.Processes.Add(new Process(int.Parse(item.Text), int.Parse(item.SubItems[1].Text), int.Parse(item.SubItems[2].Text), int.Parse(item.SubItems[3].Text)));
            
             if (e.GetType().ToString() != "System.Windows.Forms.FormClosingEventArgs")
             Close();
@@ -389,6 +371,7 @@ namespace GanttChart
                 item.Text = process.id.ToString();
                 item.SubItems.Add(process.time.ToString());
                 item.SubItems.Add(process.priority.ToString());
+                item.SubItems.Add(process.arrivaltime.ToString());
                 listView1.Items.Add(item);
                 if (process.id > index) index = process.id;
             }

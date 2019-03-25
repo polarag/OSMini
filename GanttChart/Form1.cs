@@ -29,7 +29,7 @@ namespace GanttChart
         private void DrawGantt(List<Process> _processes)
             {
                 tableLayoutPanel1.Controls.Clear();
-                GenerateGantt();
+               GenerateGantt();
                 ganttChart2.FromDate = DateTime.Now.AddMinutes(_processes[0].arrivaltime);
 
                 int time = _processes[0].arrivaltime;
@@ -49,13 +49,14 @@ namespace GanttChart
         void GenerateGantt()
         {
             ganttChart2 = new GanttChart();
+            ganttChart2.AllowChange = false;
             ganttChart2.Dock = DockStyle.Fill;
-            ganttChart2.AllowChange = true;
-            ganttChart2.AllowManualEditBar = true;
-
+            
             ganttChart2.MouseMove += new MouseEventHandler(ganttChart2.GanttChart_MouseMove);
             ganttChart2.MouseMove += new MouseEventHandler(GanttChart2_MouseMove);
+            ganttChart2.MouseDragged += new MouseEventHandler(ganttChart2.GanttChart_MouseDragged);
             ganttChart2.MouseLeave += new EventHandler(ganttChart2.GanttChart_MouseLeave);
+
             ganttChart2.ContextMenuStrip = ContextMenuGanttChart1;
         }
         private void Form1_Load(object sender, EventArgs e)
@@ -188,9 +189,8 @@ namespace GanttChart
         }
         //0: preemptive
         //1: nonpre
-                private void SJF(int mode = 0)
+        private void SJF(int mode = 0)
         {
-
             if (mode == 0) // PREEMPTIVE
             {
                 List<Process> scheduledprocess = new List<Process>();
@@ -218,6 +218,29 @@ namespace GanttChart
         }
         private void Priority(int mode = 0)
         {
+            if (mode == 0)
+            {
+                List<Process> orderedprocesses = Processes.OrderBy(x => x.arrivaltime).ThenBy(x => x.priority).ToList();
+                List<Process> scheduled = new List<Process>();
+                for (int i = 0; i < orderedprocesses.Count() - 1; i++)
+                {
+                    if (orderedprocesses[i].arrivaltime + orderedprocesses[i].time > orderedprocesses[i + 1].arrivaltime)
+                    {
+                        scheduled.Add(new Process(orderedprocesses[i].id, orderedprocesses[i + 1].arrivaltime - orderedprocesses[i].arrivaltime, orderedprocesses[i].priority, orderedprocesses[i].arrivaltime));
+                        scheduled.Add(new Process(orderedprocesses[i + 1].id, orderedprocesses[i + 1].time, orderedprocesses[i + 1].priority, orderedprocesses[i + 1].arrivaltime));
+                        scheduled.Add(new Process(orderedprocesses[i].id, orderedprocesses[i].arrivaltime + orderedprocesses[i].time - orderedprocesses[i + 1].arrivaltime, orderedprocesses[i].priority, orderedprocesses[i].arrivaltime));
+                    }
+                    else
+                    {
+                        scheduled.Add(new Process(orderedprocesses[i].id, orderedprocesses[i].time, orderedprocesses[i].priority, orderedprocesses[i].arrivaltime));
+                    }
+                }
+                DrawGantt(scheduled);
+            }
+            else
+            {
+                DrawGantt(Processes.OrderBy(x => x.arrivaltime).ThenBy(x => x.priority).ToList());
+            }
         }
         private List<Process> Clone(List<Process> _processes)
         {
@@ -228,23 +251,27 @@ namespace GanttChart
         }
         private void RoundRobin()
         {
-            List<Process> scheduledprocesses = new List<Process>();
-            List<Process> orderedprocesses = Clone(processes.OrderBy(o => o.arrivaltime).ToList()); //clone
             int q = (int)numQuantum.Value;
-            bool _break = true;
-            int sumq = orderedprocesses[0].arrivaltime;
-            int subtract = 0;
-            Color color = Color.FromArgb(random.Next(256), random.Next(256), random.Next(256));
 
-            
-            while (orderedprocesses.Count() > 0)
+            if (q > 0)
             {
-                _break = true;
-                for (int i = 0; i < orderedprocesses.Count(); i++)
+                List<Process> scheduledprocesses = new List<Process>();
+                List<Process> orderedprocesses = Clone(processes.OrderBy(o => o.arrivaltime).ToList()); //clone
+
+                bool _break = true;
+                int sumq = orderedprocesses[0].arrivaltime;
+                int subtract = 0;
+                Color color = Color.FromArgb(random.Next(256), random.Next(256), random.Next(256));
+
+
+                while (orderedprocesses.Count() > 0)
                 {
-                    if (orderedprocesses[i].time > 0)
+                    _break = true;
+                    for (int i = 0; i < orderedprocesses.Count(); i++)
+                    {
+                        if (orderedprocesses[i].time > 0)
                         {
-                           subtract = orderedprocesses[i].time >= q ? q : orderedprocesses[i].time;
+                            subtract = orderedprocesses[i].time >= q ? q : orderedprocesses[i].time;
                             if (q != (int)numQuantum.Value) { q = (int)numQuantum.Value; }
                             if (orderedprocesses[i].time < q) q -= orderedprocesses[i].time;
                             orderedprocesses[i].time -= subtract;
@@ -253,13 +280,18 @@ namespace GanttChart
                             if (q == (int)numQuantum.Value) color = Color.FromArgb(random.Next(256), random.Next(256), random.Next(256));
 
                             _break = false;
-                            if (orderedprocesses.Count() > i + 1 && orderedprocesses[i + 1].arrivaltime - (sumq + subtract - 1) >= 0) i = orderedprocesses.IndexOf(orderedprocesses.FirstOrDefault(p => p.time > 0))-1;
+                            if (orderedprocesses.Count() > i + 1 && orderedprocesses[i + 1].arrivaltime - (sumq + subtract - 1) >= 0) i = orderedprocesses.IndexOf(orderedprocesses.FirstOrDefault(p => p.time > 0)) - 1;
 
+                        }
                     }
+                    if (_break) break;
                 }
-                if (_break) break;
+                DrawGantt(scheduledprocesses);
             }
-            DrawGantt(scheduledprocesses);
+            else
+            {
+                MessageBox.Show("Please supply a positive non-zero quantum.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         private void btngenerate_Click(object sender, EventArgs e)
         {

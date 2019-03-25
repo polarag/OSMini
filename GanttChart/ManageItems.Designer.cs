@@ -39,14 +39,16 @@
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.button7 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.listView2 = new System.Windows.Forms.ListView();
             this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.label1 = new System.Windows.Forms.Label();
-            this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
+            this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.atText = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -57,6 +59,7 @@
             this.splitContainer2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.prText)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tText)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.atText)).BeginInit();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -87,6 +90,7 @@
             // 
             // splitContainer2.Panel1
             // 
+            this.splitContainer2.Panel1.Controls.Add(this.atText);
             this.splitContainer2.Panel1.Controls.Add(this.prText);
             this.splitContainer2.Panel1.Controls.Add(this.tText);
             this.splitContainer2.Panel1.Controls.Add(this.DoneButton);
@@ -164,7 +168,8 @@
             this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
             this.columnHeader2,
-            this.columnHeader3});
+            this.columnHeader3,
+            this.columnHeader4});
             this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listView1.FullRowSelect = true;
             this.listView1.Location = new System.Drawing.Point(0, 0);
@@ -188,7 +193,7 @@
             // columnHeader3
             // 
             this.columnHeader3.Text = "Priority";
-            this.columnHeader3.Width = 115;
+            this.columnHeader3.Width = 89;
             // 
             // button7
             // 
@@ -201,6 +206,18 @@
             this.button7.Text = "Edit (Ctrl+E)";
             this.button7.UseVisualStyleBackColor = true;
             this.button7.Click += new System.EventHandler(this.button7_Click);
+            // 
+            // button2
+            // 
+            this.button2.AutoSize = true;
+            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.button2.Location = new System.Drawing.Point(6, 26);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(107, 25);
+            this.button2.TabIndex = 14;
+            this.button2.Text = "Add";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click_1);
             // 
             // button6
             // 
@@ -267,18 +284,6 @@
             this.label1.TabIndex = 15;
             this.label1.Text = "Press Ctrl+Shift+I to insert items";
             // 
-            // button2
-            // 
-            this.button2.AutoSize = true;
-            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.button2.Location = new System.Drawing.Point(6, 26);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(107, 25);
-            this.button2.TabIndex = 14;
-            this.button2.Text = "Add";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click_1);
-            // 
             // button1
             // 
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.System;
@@ -289,6 +294,23 @@
             this.button1.Text = "Save";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // columnHeader4
+            // 
+            this.columnHeader4.Text = "AT";
+            // 
+            // atText
+            // 
+            this.atText.Location = new System.Drawing.Point(250, 30);
+            this.atText.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.atText.Name = "atText";
+            this.atText.Size = new System.Drawing.Size(60, 20);
+            this.atText.TabIndex = 11;
+            this.atText.Visible = false;
             // 
             // ManageItems
             // 
@@ -316,6 +338,7 @@
             this.splitContainer2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.prText)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tText)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.atText)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -341,5 +364,7 @@
         private System.Windows.Forms.NumericUpDown prText;
         private System.Windows.Forms.NumericUpDown tText;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.NumericUpDown atText;
+        private System.Windows.Forms.ColumnHeader columnHeader4;
     }
 }
