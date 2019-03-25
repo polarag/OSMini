@@ -193,7 +193,33 @@ namespace GanttChart
         {
             if (mode == 0) // PREEMPTIVE
             {
-                List<Process> scheduledprocess = new List<Process>();
+                List<Process> groupprocess;
+                List<Process> scheduledprocesses = new List<Process>();
+                List<Process> orderedprocesses = Clone(processes);
+                int accumlatedtime = 0;
+                Process currentprocess;
+                while (orderedprocesses.Count() > 0)
+                {
+                    groupprocess = orderedprocesses.Where(o => o.arrivaltime <= accumlatedtime).OrderBy(o => o.time).ToList();
+                    
+                    currentprocess = groupprocess.FirstOrDefault();
+                    if (currentprocess == null) { accumlatedtime++; continue; }
+                    scheduledprocesses.Add(new Process(currentprocess.id, 1, 0, accumlatedtime));
+                    accumlatedtime++;
+                    currentprocess.time--;
+                    orderedprocesses.RemoveAll(x => x.time <= 0);
+
+                }
+                for (int i = scheduledprocesses.Count() - 1; i > 0; i--)
+                {
+                    if (scheduledprocesses[i].id == scheduledprocesses[i - 1].id)
+                    {
+                        scheduledprocesses[i - 1].time += scheduledprocesses[i].time;
+                        scheduledprocesses.Remove(scheduledprocesses[i]);
+                    }
+                }
+                DrawGantt(scheduledprocesses);
+
             }
             if (mode == 1 ) // NON PREEmptive
             {
