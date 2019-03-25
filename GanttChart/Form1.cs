@@ -27,25 +27,25 @@ namespace GanttChart
             InitializeComponent();
         }
         private void DrawGantt(List<Process> _processes)
-            {
-                tableLayoutPanel1.Controls.Clear();
-                GenerateGantt();
-                ganttChart2.FromDate = DateTime.Now.AddMinutes(_processes[0].arrivaltime);
+        {
+            tableLayoutPanel1.Controls.Clear();
+            GenerateGantt();
+            ganttChart2.FromDate = DateTime.Now.AddMinutes(_processes[0].arrivaltime);
 
-                int time = _processes[0].arrivaltime;
-                // BarInformation("Time: " + _processes[i].time + " units, AT:" + _processes[i].arrivaltime, ganttChart2.FromDate.AddMinutes(_processes[i].arrivaltime), ganttChart2.FromDate.AddMinutes(_processes[i].arrivaltime + _processes[i].time)
-                int startT = 0;
-                int endT = 0;
-                for (int i =0; i < _processes.Count(); i++)
-                {
-                    startT = _processes[i].arrivaltime > time ? _processes[i].arrivaltime : time;
-                    endT = (_processes[i].arrivaltime > time ? _processes[i].arrivaltime : time) + _processes[i].time;
-                    ganttChart2.AddChartBar("P" + _processes[i].id, new BarInformation("Start: " + startT +  ", End: " + endT + ",|Time: " + _processes[i].time + " units, AT:" + _processes[i].arrivaltime, ganttChart2.FromDate.AddMinutes(startT), ganttChart2.FromDate.AddMinutes(endT), _processes[i].color != Color.White? _processes[i].color : Color.Maroon, Color.Wheat, 0), ganttChart2.FromDate.AddMinutes(startT), ganttChart2.FromDate.AddMinutes(endT), _processes[i].color != Color.White ? _processes[i].color : Color.Maroon, Color.Khaki, i);
-                    time = endT;
-                }
-                ganttChart2.ToDate = ganttChart2.FromDate.AddMinutes((_processes[_processes.Count - 1].arrivaltime > time ? _processes[_processes.Count-1].arrivaltime : time) + _processes[_processes.Count - 1].time);
-                tableLayoutPanel1.Controls.Add(ganttChart2, 0, 0);
+            int time = _processes[0].arrivaltime;
+            // BarInformation("Time: " + _processes[i].time + " units, AT:" + _processes[i].arrivaltime, ganttChart2.FromDate.AddMinutes(_processes[i].arrivaltime), ganttChart2.FromDate.AddMinutes(_processes[i].arrivaltime + _processes[i].time)
+            int startT = 0;
+            int endT = 0;
+            for (int i = 0; i < _processes.Count(); i++)
+            {
+                startT = _processes[i].arrivaltime > time ? _processes[i].arrivaltime : time;
+                endT = (_processes[i].arrivaltime > time ? _processes[i].arrivaltime : time) + _processes[i].time;
+                ganttChart2.AddChartBar("P" + _processes[i].id, new BarInformation("Start: " + startT + ", End: " + endT + ",|Time: " + _processes[i].time + " units, AT:" + _processes[i].arrivaltime, ganttChart2.FromDate.AddMinutes(startT), ganttChart2.FromDate.AddMinutes(endT), _processes[i].color != Color.White ? _processes[i].color : Color.Maroon, Color.Wheat, 0), ganttChart2.FromDate.AddMinutes(startT), ganttChart2.FromDate.AddMinutes(endT), _processes[i].color != Color.White ? _processes[i].color : Color.Maroon, Color.Khaki, i);
+                time = endT;
             }
+            ganttChart2.ToDate = ganttChart2.FromDate.AddMinutes((_processes[_processes.Count - 1].arrivaltime > time ? _processes[_processes.Count - 1].arrivaltime : time) + _processes[_processes.Count - 1].time);
+            tableLayoutPanel1.Controls.Add(ganttChart2, 0, 0);
+        }
         void GenerateGantt()
         {
             ganttChart2 = new GanttChart();
@@ -76,8 +76,8 @@ namespace GanttChart
             tableLayoutPanel1.Controls.Add(txtLog, 0, 1);
             */
             //Second Gantt Chart
-           
-            
+
+
         }
         private void GanttChart2_MouseMove(Object sender, MouseEventArgs e)
         {
@@ -162,12 +162,12 @@ namespace GanttChart
             if (numericUpDown1.Value > 0)
             {
                 Processes.Clear();
-                
+
                 for (int i = 0; i < (int)numericUpDown1.Value; i++)
                 {
-                    
-                    Processes.Add(new Process(i,random.Next(1, 20), random.Next(0, 6),random.Next(0, (int)numericUpDown1.Value *6 )));
-                    
+
+                    Processes.Add(new Process(i, random.Next(1, 20), random.Next(0, 6), random.Next(0, (int)numericUpDown1.Value * 6)));
+
                 }
                 MessageBox.Show("Generated " + numericUpDown1.Value.ToString() + " entries successfully. You can manage the generated entries through Manage Processes", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -188,36 +188,70 @@ namespace GanttChart
         }
         //0: preemptive
         //1: nonpre
-                private void SJF(int mode = 0)
+        private void SJF(int mode = 0)
         {
 
             if (mode == 0) // PREEMPTIVE
             {
-                List<Process> scheduledprocess = new List<Process>();
+                List<Process> groupprocess;
+                List<Process> scheduledprocesses = new List<Process>();
+                List<Process> orderedprocesses = Clone(processes);
+                int accumlatedtime = 0;
+                Process currentprocess;
+                while (orderedprocesses.Count() > 0)
+                {
+                    groupprocess = orderedprocesses.Where(o => o.arrivaltime > accumlatedtime).OrderBy(o => o.time).ToList();
+                    if (groupprocess == null) { accumlatedtime++; continue; }
+                    currentprocess = orderedprocesses.FirstOrDefault();
+                    
+                    scheduledprocesses.Add(new Process(currentprocess.id , 1 ,0,accumlatedtime));
+                    accumlatedtime++;
+                    currentprocess.time--;
+                    orderedprocesses.RemoveAll(x => x.time <= 0);
+
+                }
+                for (int i = scheduledprocesses.Count()-1; i >0; i--)
+                {
+                    if(scheduledprocesses[i].id == scheduledprocesses[i-1].id)
+                    {
+                        scheduledprocesses[i-1].time += scheduledprocesses[i].time;
+                        scheduledprocesses.Remove(scheduledprocesses[i]);
+                    }
+                }
+                DrawGantt(scheduledprocesses);
+
             }
-            if (mode == 1 ) // NON PREEmptive
+            if (mode == 1) // NON PREEmptive
             {
 
                 List<Process> scheduledprocesses = new List<Process>();
-                List<Process> orderedprocesses = processes.OrderBy(o => o.arrivaltime).ToList();
+                List<Process> orderedprocesses = Clone(processes.OrderBy(o => o.arrivaltime).ToList());
                 int accumlatedtime = 0;
-                while(orderedprocesses.Count() > 0)
+                while (orderedprocesses.Count() > 0)
                 {
-                    
-                     Process currentprocess = orderedprocesses.Where(o => o.arrivaltime <= accumlatedtime).OrderBy(o => o.time).FirstOrDefault();
+
+                    Process currentprocess = orderedprocesses.Where(o => o.arrivaltime <= accumlatedtime).OrderBy(o => o.time).FirstOrDefault();
                     if (currentprocess == null) currentprocess = orderedprocesses.OrderBy(o => o.arrivaltime).FirstOrDefault();
                     scheduledprocesses.Add(currentprocess);
                     accumlatedtime += currentprocess.time;
-                    orderedprocesses.RemoveAll(x => x == currentprocess );
+                    orderedprocesses.RemoveAll(x => x == currentprocess);
                 }
 
                 DrawGantt(scheduledprocesses);
 
             }
-                
+
         }
         private void Priority(int mode = 0)
         {
+            if (mode == 0) // PREEMPTIVE
+            {
+
+            }
+            if (mode == 1)
+            {
+
+            }
         }
         private List<Process> Clone(List<Process> _processes)
         {
@@ -236,24 +270,24 @@ namespace GanttChart
             int subtract = 0;
             Color color = Color.FromArgb(random.Next(256), random.Next(256), random.Next(256));
 
-            
+
             while (orderedprocesses.Count() > 0)
             {
                 _break = true;
                 for (int i = 0; i < orderedprocesses.Count(); i++)
                 {
                     if (orderedprocesses[i].time > 0)
-                        {
-                           subtract = orderedprocesses[i].time >= q ? q : orderedprocesses[i].time;
-                            if (q != (int)numQuantum.Value) { q = (int)numQuantum.Value; }
-                            if (orderedprocesses[i].time < q) q -= orderedprocesses[i].time;
-                            orderedprocesses[i].time -= subtract;
-                            sumq = (orderedprocesses[i].arrivaltime > sumq ? orderedprocesses[i].arrivaltime : sumq) + subtract;
-                            scheduledprocesses.Add(new Process(orderedprocesses[i].id, subtract, orderedprocesses[i].priority, orderedprocesses[i].arrivaltime, color));
-                            if (q == (int)numQuantum.Value) color = Color.FromArgb(random.Next(256), random.Next(256), random.Next(256));
+                    {
+                        subtract = orderedprocesses[i].time >= q ? q : orderedprocesses[i].time;
+                        if (q != (int)numQuantum.Value) { q = (int)numQuantum.Value; }
+                        if (orderedprocesses[i].time < q) q -= orderedprocesses[i].time;
+                        orderedprocesses[i].time -= subtract;
+                        sumq = (orderedprocesses[i].arrivaltime > sumq ? orderedprocesses[i].arrivaltime : sumq) + subtract;
+                        scheduledprocesses.Add(new Process(orderedprocesses[i].id, subtract, orderedprocesses[i].priority, orderedprocesses[i].arrivaltime, color));
+                        if (q == (int)numQuantum.Value) color = Color.FromArgb(random.Next(256), random.Next(256), random.Next(256));
 
-                            _break = false;
-                            if (orderedprocesses.Count() > i + 1 && orderedprocesses[i + 1].arrivaltime - (sumq + subtract - 1) >= 0) i = orderedprocesses.IndexOf(orderedprocesses.FirstOrDefault(p => p.time > 0))-1;
+                        _break = false;
+                        if (orderedprocesses.Count() > i + 1 && orderedprocesses[i + 1].arrivaltime - (sumq + subtract - 1) >= 0) i = orderedprocesses.IndexOf(orderedprocesses.FirstOrDefault(p => p.time > 0)) - 1;
 
                     }
                 }
