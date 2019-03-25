@@ -40,5 +40,9 @@ namespace GanttChart
         {
             this.time = time;
         }
+        public void SetTime(int time)
+        {
+            this.time = time;
+        }
     }
 }
