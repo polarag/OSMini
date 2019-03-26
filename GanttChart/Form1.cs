@@ -31,7 +31,7 @@ namespace Scheduler
             {
                 tableLayoutPanel1.Controls.Clear();
                GenerateGantt();
-                ganttChart2.FromDate = DateTime.Now.AddMinutes(_processes[0].arrivaltime);
+                ganttChart2.FromDate = DateTime.ParseExact(DateTime.Now.ToString("MM/dd/yyyy") + " 00:00:00", "MM/dd/yyyy HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture).AddMinutes(_processes[0].arrivaltime);
 
                 int time = _processes[0].arrivaltime;
                 // BarInformation("Time: " + _processes[i].time + " units, AT:" + _processes[i].arrivaltime, ganttChart2.FromDate.AddMinutes(_processes[i].arrivaltime), ganttChart2.FromDate.AddMinutes(_processes[i].arrivaltime + _processes[i].time)
@@ -56,7 +56,6 @@ namespace Scheduler
                 {
                     FinalEndTime.Add(_processes[i].id, endT);
                 }
-                
                 }
             
             waitingTime = FinalEndTime.Sum(x => x.Value) - Processes.Sum(n => n.arrivaltime) - Processes.Sum(o => o.time);
@@ -242,7 +241,7 @@ namespace Scheduler
             }
             else // NON PREEmptive
             {
-
+                /*
                 List<Process> scheduledprocesses = new List<Process>();
                 List<Process> orderedprocesses = processes.OrderBy(o => o.arrivaltime).ToList();
                 int accumlatedtime = 0;
@@ -256,6 +255,9 @@ namespace Scheduler
                     orderedprocesses.RemoveAll(x => x == currentprocess );
                 }
                 DrawGantt(scheduledprocesses);
+                */
+
+                DrawGantt(Processes.OrderBy(x => x.arrivaltime).ThenBy(x => x.time).ToList());
             }
                 
         }
@@ -263,22 +265,32 @@ namespace Scheduler
         {
             if (mode == 0)
             {
-                List<Process> orderedprocesses = Processes.OrderBy(x => x.arrivaltime).ThenBy(x => x.priority).ToList();
-                List<Process> scheduled = new List<Process>();
-                for (int i = 0; i < orderedprocesses.Count() - 1; i++)
+
+                List<Process> groupprocess;
+                List<Process> scheduledprocesses = new List<Process>();
+                List<Process> orderedprocesses = Clone(processes);
+                int accumlatedtime = 0;
+                Process currentprocess;
+                while (orderedprocesses.Count() > 0)
                 {
-                    if (orderedprocesses[i].arrivaltime + orderedprocesses[i].time > orderedprocesses[i + 1].arrivaltime)
+                    groupprocess = orderedprocesses.Where(o => o.arrivaltime <= accumlatedtime).OrderBy(o => o.priority).ToList();
+
+                    currentprocess = groupprocess.FirstOrDefault();
+                    if (currentprocess == null) { accumlatedtime++; continue; }
+                    scheduledprocesses.Add(new Process(currentprocess.id, 1, currentprocess.priority, accumlatedtime));
+                    accumlatedtime++;
+                    currentprocess.time--;
+                    orderedprocesses.RemoveAll(x => x.time <= 0);
+                }
+                for (int i = scheduledprocesses.Count() - 1; i > 0; i--)
+                {
+                    if (scheduledprocesses[i].id == scheduledprocesses[i - 1].id)
                     {
-                        scheduled.Add(new Process(orderedprocesses[i].id, orderedprocesses[i + 1].arrivaltime - orderedprocesses[i].arrivaltime, orderedprocesses[i].priority, orderedprocesses[i].arrivaltime));
-                        scheduled.Add(new Process(orderedprocesses[i + 1].id, orderedprocesses[i + 1].time, orderedprocesses[i + 1].priority, orderedprocesses[i + 1].arrivaltime));
-                        scheduled.Add(new Process(orderedprocesses[i].id, orderedprocesses[i].arrivaltime + orderedprocesses[i].time - orderedprocesses[i + 1].arrivaltime, orderedprocesses[i].priority, orderedprocesses[i].arrivaltime));
-                    }
-                    else
-                    {
-                        scheduled.Add(new Process(orderedprocesses[i].id, orderedprocesses[i].time, orderedprocesses[i].priority, orderedprocesses[i].arrivaltime));
+                        scheduledprocesses[i - 1].time += scheduledprocesses[i].time;
+                        scheduledprocesses.Remove(scheduledprocesses[i]);
                     }
                 }
-                DrawGantt(scheduled);
+                DrawGantt(scheduledprocesses);
             }
             else
             {

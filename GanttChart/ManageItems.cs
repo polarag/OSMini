@@ -26,17 +26,6 @@ namespace Scheduler
         {
 
         }
-        private void AddItem(Process prc)
-        {
-            ListViewItem item = new ListViewItem();
-
-            item.Text = prc.id.ToString();
-            item.SubItems.Add(prc.arrivaltime.ToString());
-            item.SubItems.Add(prc.time.ToString());
-            item.SubItems.Add(prc.priority.ToString());
-
-            listView1.Items.Add(item);
-        }
         string SelectedItem;
         int SelectedIndex;
         ListViewItem selected;
@@ -221,12 +210,7 @@ namespace Scheduler
                     }
                     listView1.Enabled = true;
                     listView2.Enabled = true;
-                    ListViewItem listViewItem = new ListViewItem();
-                    listViewItem.Text = idText.Text;
-                    listView1.Items.Add(listViewItem);
-                    listViewItem.SubItems.Add(atText.Value.ToString());
-                    listViewItem.SubItems.Add(tText.Value.ToString());
-                    listViewItem.SubItems.Add(prText.Value.ToString());
+                    AddItem(int.Parse(idText.Text), (int)atText.Value, (int)tText.Value, (int)prText.Value);
                     setVisibleNumeric(false);
                     base.AcceptButton = button1;
                     splitContainer2.Panel2.Enabled = true;
@@ -257,7 +241,9 @@ namespace Scheduler
         private void idText_Enter(object sender, EventArgs e)
         {
             AcceptButton = DoneButton;
+            ((NumericUpDown)sender).Select(0, ((NumericUpDown)sender).Text.Length);
         }
+    
 
         private void tText_Enter(object sender, EventArgs e)
         {
@@ -305,6 +291,8 @@ namespace Scheduler
                 SelectedItem = "";
                 listView1.Update();
             }
+            if (listView1.Items.Count == 0)
+                button3.Enabled = false;
         }
 
         private void listView2_SelectedIndexChanged(object sender, EventArgs e)
@@ -361,25 +349,68 @@ namespace Scheduler
             if (e.GetType().ToString() != "System.Windows.Forms.FormClosingEventArgs")
             Close();
         }
+        private void AddItem(int id, int AT, int BT, int p)
+        {
+            ListViewItem item = new ListViewItem();
+            item.Text = id.ToString();
+            item.SubItems.Add(AT.ToString());
+            item.SubItems.Add(BT.ToString());
+            item.SubItems.Add(p.ToString());
+            listView1.Items.Add(item);
 
+            button3.Enabled = true;
+        }
         private void ManageItems_Load(object sender, EventArgs e)
         {
             foreach (Process process in Form1.Processes)
             {
                 ListViewItem item = new ListViewItem();
-                item.Text = process.id.ToString();
-                item.SubItems.Add(process.arrivaltime.ToString());
-                item.SubItems.Add(process.time.ToString());
-                item.SubItems.Add(process.priority.ToString());
-                listView1.Items.Add(item);
+                AddItem(process.id, process.arrivaltime, process.time, process.priority);
                 if (process.id > index) index = process.id;
             }
 
         }
-
         private void ManageItems_FormClosing(object sender, FormClosingEventArgs e)
         {
             button1_Click(sender, e);
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                System.IO.StreamReader reader = new System.IO.StreamReader(openFileDialog1.FileName);
+                string line;
+                string[] split;
+                while ((line = reader.ReadLine()) != null)
+                {
+                    split = line.Split(',');
+                    if (split.Length > 2)
+                    {
+                        try
+                        {
+                            AddItem(++index, int.Parse(split[0]), int.Parse(split[1]), int.Parse(split[2]));
+                        }
+                        catch { }
+                    }
+                }
+                reader.Close();
+            }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                System.IO.StreamWriter writer = new System.IO.StreamWriter(saveFileDialog1.FileName);
+                foreach (ListViewItem item in listView1.Items)
+                {
+                    writer.WriteLine(item.SubItems[1].Text + "," + item.SubItems[2].Text + "," + item.SubItems[3].Text);
+                }
+                writer.Flush();
+                writer.Close();
+            }
+
         }
     }
 }

@@ -451,9 +451,9 @@ namespace Scheduler
                 }
 
                 // Show date
-
-                if (showDateHeader == true)
+  if (showDateHeader == true)
                 {
+                    /*
                     string str = "";
 
                     if (header.HeaderTextInsteadOfTime.Length > 0)
@@ -463,8 +463,8 @@ namespace Scheduler
                     else
                     {
                         str = header.Time.ToString("d-MMM");
-                    }
-                    gfx.DrawString(str, dateTextFont, Brushes.Black, startPos, 0);
+                    }*/
+                    gfx.DrawString("Time", dateTextFont, Brushes.Black, startPos, 0);
                 }
 
                 // Show time
@@ -671,8 +671,6 @@ namespace Scheduler
         {
             List<Header> result = new List<Header>();
             DateTime newFromTime = new DateTime(FromDate.Year, FromDate.Month, FromDate.Day);
-            string item = null;
-
             TimeSpan interval = ToDate - FromDate;
 
             if (interval.TotalDays < 1)
@@ -693,20 +691,9 @@ namespace Scheduler
 
                 while (newFromTime <= ToDate)
                 {
-                    item = newFromTime.Hour + ":";
-
-                    if (newFromTime.Minute < 10)
-                    {
-                        item += "0" + newFromTime.Minute;
-                    }
-                    else
-                    {
-                        item += "" + newFromTime.Minute;
-                    }
-
                     Header header = new Header();
 
-                    header.HeaderText = item;
+                    header.HeaderText = newFromTime.TimeOfDay.TotalMinutes.ToString();
                     header.HeaderTextInsteadOfTime = "";
                     header.Time = new DateTime(newFromTime.Year, newFromTime.Month, newFromTime.Day, newFromTime.Hour, newFromTime.Minute, 0);
                     result.Add(header);
