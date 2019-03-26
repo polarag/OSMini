@@ -37,17 +37,29 @@ namespace GanttChart
                 int startT = 0;
                 int endT = 0;
                 Process originalP;
-                int waitingTime = 0;
-                for (int i =0; i < _processes.Count(); i++)
+                float waitingTime = 0;
+            Dictionary<int,int> FinalEndTime = new Dictionary<int, int>();
+            for (int i =0; i < _processes.Count(); i++)
                 {
                 originalP = Processes.Where(p => p.id == _processes[i].id).FirstOrDefault();
                     startT = _processes[i].arrivaltime > time ? _processes[i].arrivaltime : time;
                     endT = (_processes[i].arrivaltime > time ? _processes[i].arrivaltime : time) + _processes[i].time;
                     ganttChart2.AddChartBar("P" + _processes[i].id, new BarInformation("Start: " + startT +  ", End: " + endT + ",|Time: " + _processes[i].time + " units, AT:" + originalP.arrivaltime, ganttChart2.FromDate.AddMinutes(startT), ganttChart2.FromDate.AddMinutes(endT), _processes[i].color != Color.White? _processes[i].color : Color.Maroon, Color.Wheat, 0), ganttChart2.FromDate.AddMinutes(startT), ganttChart2.FromDate.AddMinutes(endT), _processes[i].color != Color.White ? _processes[i].color : Color.Maroon, Color.Khaki, i);
                     time = endT;
-                waitingTime += endT - originalP.arrivaltime - _processes[i].time;
+                if (FinalEndTime.ContainsKey(_processes[i].id) == true)
+                {
+                    if (FinalEndTime[_processes[i].id] < endT) FinalEndTime[_processes[i].id] = endT;
+                    
                 }
-                label2.Text = "Average Waiting Time: " + (waitingTime/_processes.Count()).ToString();
+                else
+                {
+                    FinalEndTime.Add(_processes[i].id, endT);
+                }
+                
+                }
+            
+            waitingTime = FinalEndTime.Sum(x => x.Value) - Processes.Sum(n => n.arrivaltime) - Processes.Sum(o => o.time);
+            label2.Text = "Average Waiting Time: " + (waitingTime*1.0/Processes.Count()).ToString("0.00");
 
             label2.Visible = true;
             ganttChart2.ToDate = ganttChart2.FromDate.AddMinutes((_processes[_processes.Count - 1].arrivaltime > time ? _processes[_processes.Count-1].arrivaltime : time) + _processes[_processes.Count - 1].time);
