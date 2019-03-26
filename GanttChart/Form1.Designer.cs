@@ -1,4 +1,4 @@
-﻿namespace GanttChart
+﻿namespace Scheduler
 {
     partial class Form1
     {
@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.ContextMenuGanttChart1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.SaveImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
@@ -250,8 +251,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(481, 350);
             this.Controls.Add(this.splitContainer1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
-            this.Text = "C# Gantt Chart";
+            this.Text = "OSMini: Scheduler";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ContextMenuGanttChart1.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);

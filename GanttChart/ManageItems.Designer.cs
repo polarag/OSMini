@@ -1,4 +1,4 @@
-﻿namespace GanttChart
+﻿namespace Scheduler
 {
     partial class ManageItems
     {
@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ManageItems));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.atText = new System.Windows.Forms.NumericUpDown();
@@ -111,7 +112,7 @@
             // 
             // atText
             // 
-            this.atText.Location = new System.Drawing.Point(250, 30);
+            this.atText.Location = new System.Drawing.Point(76, 29);
             this.atText.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -126,7 +127,7 @@
             // 
             // prText
             // 
-            this.prText.Location = new System.Drawing.Point(170, 30);
+            this.prText.Location = new System.Drawing.Point(254, 26);
             this.prText.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -134,14 +135,14 @@
             0});
             this.prText.Name = "prText";
             this.prText.Size = new System.Drawing.Size(60, 20);
-            this.prText.TabIndex = 10;
+            this.prText.TabIndex = 13;
             this.prText.Visible = false;
             this.prText.Enter += new System.EventHandler(this.idText_Enter);
             this.prText.Leave += new System.EventHandler(this.idText_Leave);
             // 
             // tText
             // 
-            this.tText.Location = new System.Drawing.Point(69, 30);
+            this.tText.Location = new System.Drawing.Point(169, 29);
             this.tText.Maximum = new decimal(new int[] {
             100000,
             0,
@@ -149,7 +150,7 @@
             0});
             this.tText.Name = "tText";
             this.tText.Size = new System.Drawing.Size(59, 20);
-            this.tText.TabIndex = 9;
+            this.tText.TabIndex = 12;
             this.tText.Visible = false;
             this.tText.Enter += new System.EventHandler(this.idText_Enter);
             this.tText.Leave += new System.EventHandler(this.idText_Leave);
@@ -202,17 +203,17 @@
             // 
             // columnHeader2
             // 
-            this.columnHeader2.Text = "Time";
+            this.columnHeader2.Text = "Arrival Time";
             this.columnHeader2.Width = 100;
             // 
             // columnHeader3
             // 
-            this.columnHeader3.Text = "Priority";
+            this.columnHeader3.Text = "Burst Time";
             this.columnHeader3.Width = 89;
             // 
             // columnHeader4
             // 
-            this.columnHeader4.Text = "AT";
+            this.columnHeader4.Text = "Priority";
             // 
             // button7
             // 
@@ -321,9 +322,10 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(597, 320);
             this.Controls.Add(this.splitContainer1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ManageItems";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Manage Items";
+            this.Text = "Manage Processes";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ManageItems_FormClosing);
             this.Load += new System.EventHandler(this.ManageItems_Load);
             this.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.listView1_PreviewKeyDown);

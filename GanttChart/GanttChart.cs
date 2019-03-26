@@ -12,10 +12,9 @@ using Microsoft.VisualBasic;
 using System.Collections;
 using System.Diagnostics;
 using System.Drawing.Imaging;
+using GanttChart;
 
-
-
-namespace GanttChart
+namespace Scheduler
 {
     public class GanttChart : UserControl
     {

@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualBasic;
+﻿using GanttChart;
+using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,7 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace GanttChart
+namespace Scheduler
 {
     public partial class Form1 : Form
     {
