@@ -87,16 +87,7 @@ namespace Scheduler
             schedulerType.SelectedIndex = 0;
 
             SaveImageToolStripMenuItem.Click += new EventHandler(SaveImageToolStripMenuItem_Click);
-            /*
-            txtLog = new TextBox();
-            txtLog.Dock = DockStyle.Fill;
-            txtLog.Multiline = true;
-            txtLog.Enabled = false;
-            txtLog.ScrollBars = ScrollBars.Horizontal;
-            tableLayoutPanel1.Controls.Add(txtLog, 0, 1);
-            */
-            //Second Gantt Chart
-           
+          
             
         }
         private void GanttChart2_MouseMove(Object sender, MouseEventArgs e)

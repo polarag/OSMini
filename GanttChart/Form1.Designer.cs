@@ -121,6 +121,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.button1);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.button2);
@@ -135,6 +137,7 @@
             // 
             // button1
             // 
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.button1.AutoSize = true;
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button1.Location = new System.Drawing.Point(325, 17);
@@ -148,6 +151,7 @@
             // 
             // label1
             // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(297, 24);
             this.label1.Name = "label1";
@@ -157,6 +161,7 @@
             // 
             // button2
             // 
+            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.button2.AutoSize = true;
             this.button2.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button2.Location = new System.Drawing.Point(181, 17);
@@ -170,6 +175,8 @@
             // 
             // numericUpDown1
             // 
+            this.numericUpDown1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.numericUpDown1.Location = new System.Drawing.Point(98, 20);
             this.numericUpDown1.Name = "numericUpDown1";
             this.numericUpDown1.Size = new System.Drawing.Size(78, 20);
@@ -193,7 +200,7 @@
             // lblQuantum
             // 
             this.lblQuantum.AutoSize = true;
-            this.lblQuantum.Location = new System.Drawing.Point(11, 110);
+            this.lblQuantum.Location = new System.Drawing.Point(12, 110);
             this.lblQuantum.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblQuantum.Name = "lblQuantum";
             this.lblQuantum.Size = new System.Drawing.Size(50, 13);
@@ -203,6 +210,7 @@
             // 
             // btngenerate
             // 
+            this.btngenerate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btngenerate.AutoSize = true;
             this.btngenerate.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.btngenerate.Location = new System.Drawing.Point(385, 103);
@@ -216,9 +224,9 @@
             // 
             // numQuantum
             // 
-            this.numQuantum.Location = new System.Drawing.Point(63, 108);
+            this.numQuantum.Location = new System.Drawing.Point(67, 106);
             this.numQuantum.Name = "numQuantum";
-            this.numQuantum.Size = new System.Drawing.Size(317, 20);
+            this.numQuantum.Size = new System.Drawing.Size(316, 20);
             this.numQuantum.TabIndex = 20;
             this.numQuantum.Visible = false;
             // 
@@ -234,13 +242,15 @@
             // 
             // schedulerType
             // 
+            this.schedulerType.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.schedulerType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.schedulerType.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.schedulerType.FormattingEnabled = true;
             this.schedulerType.Location = new System.Drawing.Point(106, 6);
             this.schedulerType.Margin = new System.Windows.Forms.Padding(2);
             this.schedulerType.Name = "schedulerType";
-            this.schedulerType.Size = new System.Drawing.Size(153, 21);
+            this.schedulerType.Size = new System.Drawing.Size(364, 21);
             this.schedulerType.TabIndex = 9;
             this.schedulerType.SelectedIndexChanged += new System.EventHandler(this.schedulerType_SelectedIndexChanged);
             // 

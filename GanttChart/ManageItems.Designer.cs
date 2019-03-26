@@ -41,6 +41,8 @@
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.button8 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
             this.button7 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
@@ -50,8 +52,6 @@
             this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.label1 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button8 = new System.Windows.Forms.Button();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -90,6 +90,7 @@
             // splitContainer2
             // 
             this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer2.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
             this.splitContainer2.Location = new System.Drawing.Point(0, 0);
             this.splitContainer2.Name = "splitContainer2";
             // 
@@ -113,7 +114,7 @@
             this.splitContainer2.Panel2.Controls.Add(this.button4);
             this.splitContainer2.Panel2.Controls.Add(this.listView2);
             this.splitContainer2.Size = new System.Drawing.Size(597, 270);
-            this.splitContainer2.SplitterDistance = 472;
+            this.splitContainer2.SplitterDistance = 466;
             this.splitContainer2.TabIndex = 0;
             // 
             // atText
@@ -196,7 +197,7 @@
             this.listView1.FullRowSelect = true;
             this.listView1.Location = new System.Drawing.Point(0, 0);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(472, 270);
+            this.listView1.Size = new System.Drawing.Size(466, 270);
             this.listView1.TabIndex = 0;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
@@ -221,13 +222,44 @@
             // 
             this.columnHeader4.Text = "Priority";
             // 
+            // button8
+            // 
+            this.button8.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.button8.AutoSize = true;
+            this.button8.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.button8.Location = new System.Drawing.Point(6, 184);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(113, 25);
+            this.button8.TabIndex = 16;
+            this.button8.Text = "Import";
+            this.button8.UseVisualStyleBackColor = true;
+            this.button8.Click += new System.EventHandler(this.button8_Click);
+            // 
+            // button3
+            // 
+            this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.button3.AutoSize = true;
+            this.button3.Enabled = false;
+            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.button3.Location = new System.Drawing.Point(7, 215);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(113, 25);
+            this.button3.TabIndex = 15;
+            this.button3.Text = "Export";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
             // button7
             // 
+            this.button7.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.button7.AutoSize = true;
             this.button7.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button7.Location = new System.Drawing.Point(6, 142);
             this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(107, 25);
+            this.button7.Size = new System.Drawing.Size(113, 25);
             this.button7.TabIndex = 10;
             this.button7.Text = "Edit (Ctrl+E)";
             this.button7.UseVisualStyleBackColor = true;
@@ -235,11 +267,13 @@
             // 
             // button2
             // 
+            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.button2.AutoSize = true;
             this.button2.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button2.Location = new System.Drawing.Point(6, 26);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(107, 25);
+            this.button2.Size = new System.Drawing.Size(113, 25);
             this.button2.TabIndex = 14;
             this.button2.Text = "Add";
             this.button2.UseVisualStyleBackColor = true;
@@ -247,11 +281,13 @@
             // 
             // button6
             // 
+            this.button6.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.button6.AutoSize = true;
             this.button6.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button6.Location = new System.Drawing.Point(6, 113);
             this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(107, 25);
+            this.button6.Size = new System.Drawing.Size(113, 25);
             this.button6.TabIndex = 9;
             this.button6.Text = "Delete (Del)";
             this.button6.UseVisualStyleBackColor = true;
@@ -259,11 +295,13 @@
             // 
             // button5
             // 
+            this.button5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.button5.AutoSize = true;
             this.button5.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button5.Location = new System.Drawing.Point(6, 84);
             this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(107, 25);
+            this.button5.Size = new System.Drawing.Size(113, 25);
             this.button5.TabIndex = 8;
             this.button5.Text = "Down (Alt+Down)";
             this.button5.UseVisualStyleBackColor = true;
@@ -271,11 +309,13 @@
             // 
             // button4
             // 
+            this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.button4.AutoSize = true;
             this.button4.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button4.Location = new System.Drawing.Point(6, 55);
             this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(108, 25);
+            this.button4.Size = new System.Drawing.Size(114, 25);
             this.button4.TabIndex = 7;
             this.button4.Text = "UP (Alt+UP)";
             this.button4.UseVisualStyleBackColor = true;
@@ -289,7 +329,7 @@
             this.listView2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listView2.Location = new System.Drawing.Point(0, 0);
             this.listView2.Name = "listView2";
-            this.listView2.Size = new System.Drawing.Size(121, 270);
+            this.listView2.Size = new System.Drawing.Size(127, 270);
             this.listView2.TabIndex = 1;
             this.listView2.UseCompatibleStateImageBehavior = false;
             this.listView2.View = System.Windows.Forms.View.Details;
@@ -312,6 +352,7 @@
             // 
             // button1
             // 
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button1.Location = new System.Drawing.Point(510, 11);
             this.button1.Name = "button1";
@@ -320,31 +361,6 @@
             this.button1.Text = "Save";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // button3
-            // 
-            this.button3.AutoSize = true;
-            this.button3.Enabled = false;
-            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.button3.Location = new System.Drawing.Point(7, 215);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(107, 25);
-            this.button3.TabIndex = 15;
-            this.button3.Text = "Export";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
-            // 
-            // button8
-            // 
-            this.button8.AutoSize = true;
-            this.button8.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.button8.Location = new System.Drawing.Point(6, 184);
-            this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(107, 25);
-            this.button8.TabIndex = 16;
-            this.button8.Text = "Import";
-            this.button8.UseVisualStyleBackColor = true;
-            this.button8.Click += new System.EventHandler(this.button8_Click);
             // 
             // saveFileDialog1
             // 
