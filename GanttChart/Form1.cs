@@ -31,7 +31,7 @@ namespace Scheduler
             {
                 tableLayoutPanel1.Controls.Clear();
                GenerateGantt();
-                ganttChart2.FromDate = DateTime.ParseExact(DateTime.Now.ToString("MM/dd/yyyy") + " 00:00:00", "MM/dd/yyyy HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture).AddMinutes(_processes[0].arrivaltime);
+                ganttChart2.FromDate = DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd") + " 00:00:00",System.Globalization.CultureInfo.InvariantCulture).AddMinutes(_processes[0].arrivaltime);
 
                 int time = _processes[0].arrivaltime;
                 // BarInformation("Time: " + _processes[i].time + " units, AT:" + _processes[i].arrivaltime, ganttChart2.FromDate.AddMinutes(_processes[i].arrivaltime), ganttChart2.FromDate.AddMinutes(_processes[i].arrivaltime + _processes[i].time)
