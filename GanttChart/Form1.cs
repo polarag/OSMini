@@ -67,16 +67,19 @@ namespace Scheduler
             }
         void GenerateGantt()
         {
-            ganttChart2 = new GanttChart();
-            ganttChart2.AllowChange = false;
-            ganttChart2.Dock = DockStyle.Fill;
+            if (ganttChart2 != null)
+            ganttChart2.Dispose();
+            GanttChart ganttChart = new GanttChart();
+            ganttChart.AllowChange = false;
+            ganttChart.Dock = DockStyle.Fill;
             
-            ganttChart2.MouseMove += new MouseEventHandler(ganttChart2.GanttChart_MouseMove);
-            ganttChart2.MouseMove += new MouseEventHandler(GanttChart2_MouseMove);
-            ganttChart2.MouseDragged += new MouseEventHandler(ganttChart2.GanttChart_MouseDragged);
-            ganttChart2.MouseLeave += new EventHandler(ganttChart2.GanttChart_MouseLeave);
+            ganttChart.MouseMove += new MouseEventHandler(ganttChart.GanttChart_MouseMove);
+            ganttChart.MouseMove += new MouseEventHandler(GanttChart2_MouseMove);
+            ganttChart.MouseDragged += new MouseEventHandler(ganttChart.GanttChart_MouseDragged);
+            ganttChart.MouseLeave += new EventHandler(ganttChart.GanttChart_MouseLeave);
 
-            ganttChart2.ContextMenuStrip = ContextMenuGanttChart1;
+            ganttChart.ContextMenuStrip = ContextMenuGanttChart1;
+            ganttChart2 = ganttChart;
         }
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -92,12 +95,12 @@ namespace Scheduler
         }
         private void GanttChart2_MouseMove(Object sender, MouseEventArgs e)
         {
-            List<string> toolTipText = new List<string>();
 
             if (ganttChart2.MouseOverRowText != null && ganttChart2.MouseOverRowText != "" && ganttChart2.MouseOverRowValue != null)
             {
                 object obj = ganttChart2.MouseOverRowValue;
                 string typ = obj.GetType().ToString();
+                List<string> toolTipText = new List<string>();
                 if (typ.ToLower().Contains("barinformation"))
                 {
                     BarInformation val = (BarInformation)ganttChart2.MouseOverRowValue;
@@ -117,14 +120,10 @@ namespace Scheduler
                 {
                     toolTipText.Add(ganttChart2.MouseOverRowValue.ToString());
                 }
-            }
-            else
-            {
-                toolTipText.Add("EMPTY");
+                ganttChart2.ToolTipTextTitle = ganttChart2.MouseOverRowText;
+                ganttChart2.ToolTipText = toolTipText;
             }
 
-            ganttChart2.ToolTipTextTitle = ganttChart2.MouseOverRowText;
-            ganttChart2.ToolTipText = toolTipText;
         }
 
         private void SaveImageToolStripMenuItem_Click(Object sender, EventArgs e)

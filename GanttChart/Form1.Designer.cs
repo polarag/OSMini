@@ -224,6 +224,8 @@
             // 
             // numQuantum
             // 
+            this.numQuantum.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.numQuantum.Location = new System.Drawing.Point(67, 106);
             this.numQuantum.Name = "numQuantum";
             this.numQuantum.Size = new System.Drawing.Size(316, 20);
