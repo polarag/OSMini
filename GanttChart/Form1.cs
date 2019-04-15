@@ -231,7 +231,7 @@ namespace Scheduler
             }
             else // NON PREEmptive
             {
-                /*
+                
                 List<Process> scheduledprocesses = new List<Process>();
                 List<Process> orderedprocesses = processes.OrderBy(o => o.arrivaltime).ToList();
                 int accumlatedtime = 0;
@@ -245,9 +245,9 @@ namespace Scheduler
                     orderedprocesses.RemoveAll(x => x == currentprocess );
                 }
                 DrawGantt(scheduledprocesses);
-                */
+                
 
-                DrawGantt(Processes.OrderBy(x => x.arrivaltime).ThenBy(x => x.time).ToList());
+                /*DrawGantt(Processes.OrderBy(x => x.arrivaltime).ThenBy(x => x.time).ToList());*/
             }
                 
         }
