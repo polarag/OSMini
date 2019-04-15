@@ -233,7 +233,7 @@ namespace Scheduler
             {
                 
                 List<Process> scheduledprocesses = new List<Process>();
-                List<Process> orderedprocesses = processes.OrderBy(o => o.arrivaltime).ToList();
+                List<Process> orderedprocesses = Clone(processes).OrderBy(o => o.arrivaltime).ToList();
                 int accumlatedtime = 0;
                 while(orderedprocesses.Count() > 0)
                 {
